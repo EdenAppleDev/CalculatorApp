@@ -6,18 +6,35 @@
 //
 
 import UIKit
+import SnapKit
 
 class ViewController: UIViewController {
-
+    
+    let numLabel: UILabel = {
+        let numLabel = UILabel()
+        numLabel.backgroundColor = .black
+        numLabel.textColor = .white
+        numLabel.text = "12345"
+        numLabel.textAlignment = .right
+        numLabel.font = .systemFont(ofSize: 60, weight: .bold)
+        return numLabel
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        view.backgroundColor = .green
+        
+        view.backgroundColor = .black
+        
+        [numLabel]
+            .forEach { view.addSubview($0) }
+        
+        numLabel.snp.makeConstraints {
+            $0.directionalHorizontalEdges.equalToSuperview().inset(30)
+            $0.top.equalToSuperview().inset(200)
+            $0.height.equalTo(100)
+        }
     }
-
-
 }
-
 
 
 // MARK: - ViewController Preview
