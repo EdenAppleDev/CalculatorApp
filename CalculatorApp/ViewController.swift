@@ -8,19 +8,6 @@
 import UIKit
 import SnapKit
 
-//버튼 모델
-struct ButtonModel {
-    let title: String
-    let color: UIColor
-    let action: Selector?
-}
-
-//버튼 색상
-enum Color {
-    static let grayColor = UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1)
-    static let orangeColor = UIColor.orange
-}
-
 class ViewController: UIViewController {
     
     //레이블
@@ -33,7 +20,6 @@ class ViewController: UIViewController {
         label.font = .systemFont(ofSize: 60, weight: .bold)
         return label
     }()
-    
 
     //버튼 배열
     let row1: [ButtonModel] = [
@@ -103,20 +89,24 @@ class ViewController: UIViewController {
     }
     
     //버튼 만들기
+//    func createButton(from model: ButtonModel) -> UIButton {
+//        let button = UIButton(type: .system)
+//        //다른 속성
+//        button.setTitle(model.title, for: .normal)
+//        button.backgroundColor = model.color
+//        //같은 속성
+//        button.setTitleColor(.white, for: .normal)
+//        button.titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
+//        button.layer.cornerRadius = 40
+//        //액션
+//        if let action = model.action {
+//            button.addTarget(self, action: action, for: .touchUpInside)
+//        }
+//        return button
+//    }
+    
     func createButton(from model: ButtonModel) -> UIButton {
-        let button = UIButton(type: .system)
-        //다른 속성
-        button.setTitle(model.title, for: .normal)
-        button.backgroundColor = model.color
-        //같은 속성
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
-        button.layer.cornerRadius = 40
-        //액션
-        if let action = model.action {
-            button.addTarget(self, action: action, for: .touchUpInside)
-        }
-        return button
+        return CircleButton(model: model)
     }
     
     //버튼 4개 배열에 넣기
@@ -144,6 +134,41 @@ class ViewController: UIViewController {
         return verticalStackView
     }
     
+}
+
+//버튼 클래스
+class CircleButton: UIButton {
+    init(model: ButtonModel) {
+        super.init(frame: .zero)
+        //다른 속성
+        setTitle(model.title, for: .normal)
+        backgroundColor = model.color
+        //같은 속성
+        setTitleColor(.white, for: .normal)
+        titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
+        layer.cornerRadius = 40
+        //액션
+        if let action = model.action {
+            addTarget(self, action: action, for: .touchUpInside)
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+//버튼 모델
+struct ButtonModel {
+    let title: String
+    let color: UIColor
+    let action: Selector?
+}
+
+//버튼 색상
+enum Color {
+    static let grayColor = UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1)
+    static let orangeColor = UIColor.orange
 }
 
 
