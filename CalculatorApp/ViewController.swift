@@ -20,56 +20,103 @@ class ViewController: UIViewController {
         label.font = .systemFont(ofSize: 60, weight: .bold)
         return label
     }()
+
+    //버튼 배열
+    let row1: [ButtonModel] = [
+        ButtonModel(title: "7", color: Color.grayColor, action: nil),
+        ButtonModel(title: "8", color: Color.grayColor, action: nil),
+        ButtonModel(title: "9", color: Color.grayColor, action: nil),
+        ButtonModel(title: "+", color: Color.orangeColor, action: nil)
+    ]
+    let row2: [ButtonModel] = [
+        ButtonModel(title: "4", color: Color.grayColor, action: nil),
+        ButtonModel(title: "5", color: Color.grayColor, action: nil),
+        ButtonModel(title: "6", color: Color.grayColor, action: nil),
+        ButtonModel(title: "-", color: Color.orangeColor, action: nil)
+    ]
+    let row3: [ButtonModel] = [
+        ButtonModel(title: "1", color: Color.grayColor, action: nil),
+        ButtonModel(title: "2", color: Color.grayColor, action: nil),
+        ButtonModel(title: "3", color: Color.grayColor, action: nil),
+        ButtonModel(title: "*", color: Color.orangeColor, action: nil)
+    ]
+    let row4: [ButtonModel] = [
+        ButtonModel(title: "AC", color: Color.orangeColor, action: nil),
+        ButtonModel(title: "0", color: Color.grayColor, action: nil),
+        ButtonModel(title: "=", color: Color.orangeColor, action: nil),
+        ButtonModel(title: "/", color: Color.orangeColor, action: nil)
+    ]
     
-    //버튼 색상
-    static let grayColor: UIColor = UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1.0)
-    static let orangeColor: UIColor = .orange
-    
-    //버튼 튜플
-    let firstBtns: [(String, UIColor)] = [
-        ("7", grayColor),("8", grayColor),("9", grayColor),("+", orangeColor)
-    ]
-    let secondBtns: [(String, UIColor)] = [
-        ("4", grayColor),("5", grayColor),("6", grayColor),("+", orangeColor)
-    ]
-    let thirdBtns: [(String, UIColor)] = [
-        ("1", grayColor),("2", grayColor),("3", grayColor),("+", orangeColor)
-    ]
-    let fourthBtns: [(String, UIColor)] = [
-        ("AC", orangeColor),("0", grayColor),("=", orangeColor),("/", orangeColor)
-    ]
-    
-    //버튼 스타일 UIButton
-    func makeButtonStyle(_ title: String, _ color: UIColor) -> UIButton {
-        let button = UIButton(type: .system)
-        //다른 속성
-        button.setTitle(title, for: .normal)
-        button.backgroundColor = color
-        //같은 속성
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
-        //height, width 80 에 다 중복인데 어떻게하지..
-        button.layer.cornerRadius = 40
-        return button
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = .black
+        
+        //버튼 배열
+        let buttonRows: [[ButtonModel]] = [
+            row1,
+            row2,
+            row3,
+            row4
+        ]
+        //HStack 생성
+        let horizontalStackView = buttonRows.map { row in
+            let buttons = createButtons(from: row)
+            return buildHorizontalStackView(buttons)
+        }
+
+        //VStack 생성
+        let verticalStack = buildVerticalStackView(horizontalStackView)
+        
+        [label, verticalStack]
+            .forEach { view.addSubview($0) }
+        
+        label.snp.makeConstraints {
+            $0.height.equalTo(100)
+            $0.directionalHorizontalEdges.equalToSuperview().inset(30)
+            $0.top.equalToSuperview().inset(200)
+        }
+        
+        horizontalStackView
+            .forEach { $0.snp.makeConstraints { $0.height.equalTo(80) } }
+        
+        verticalStack.snp.makeConstraints {
+            $0.width.equalTo(350) 
+            $0.top.equalTo(label.snp.bottom).offset(60)
+            $0.centerX.equalToSuperview()
+        }
+        
     }
     
-    //버튼 만들기 4개 배열
-    //버튼을 만드는 func makeButton 이라는 메서드가 있었고 인자로 titleValue: String, action: Selector, backgroundColor: UIColor 를 받을 수 있으면 편했겠죠.
-    func makeButton(_ btns: [(String, UIColor)]) -> [UIButton] {
-        var buttons: [UIButton] = []
-        
-        for (title, color) in btns {
-            let button = makeButtonStyle(title, color)
-            buttons.append(button)
-            print(buttons)
-        }
-            
-        return buttons
+    //버튼 만들기
+//    func createButton(from model: ButtonModel) -> UIButton {
+//        let button = UIButton(type: .system)
+//        //다른 속성
+//        button.setTitle(model.title, for: .normal)
+//        button.backgroundColor = model.color
+//        //같은 속성
+//        button.setTitleColor(.white, for: .normal)
+//        button.titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
+//        button.layer.cornerRadius = 40
+//        //액션
+//        if let action = model.action {
+//            button.addTarget(self, action: action, for: .touchUpInside)
+//        }
+//        return button
+//    }
+    
+    func createButton(from model: ButtonModel) -> UIButton {
+        return CircleButton(model: model)
+    }
+    
+    //버튼 4개 배열에 넣기
+    func createButtons(from models: [ButtonModel]) -> [UIButton] {
+        return models.map { createButton(from: $0) }
     }
     
     //HStack 만들기 안에 버튼 4개
-    func makeHorizontalStackView(_ views: [UIButton]) -> UIStackView {
-        let buttonStackView = UIStackView(arrangedSubviews: views) 
+    func buildHorizontalStackView(_ views: [UIButton]) -> UIStackView {
+        let buttonStackView = UIStackView(arrangedSubviews: views)
         buttonStackView.axis = .horizontal
         buttonStackView.backgroundColor = .black
         buttonStackView.spacing = 10
@@ -78,7 +125,7 @@ class ViewController: UIViewController {
     }
     
     //VStack 만들기 안에 HStack 4개
-    func makeVerticalStackView(_ views: [UIStackView]) -> UIStackView {
+    func buildVerticalStackView(_ views: [UIStackView]) -> UIStackView {
         let verticalStackView = UIStackView(arrangedSubviews: views)
         verticalStackView.axis = .vertical
         verticalStackView.backgroundColor = .black
@@ -87,58 +134,41 @@ class ViewController: UIViewController {
         return verticalStackView
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = .black
-        
-        //4줄 4개씩 버튼 생성
-        let firstButtons = makeButton(firstBtns)
-        let secondButtons = makeButton(secondBtns)
-        let thirdButtons = makeButton(thirdBtns)
-        let fourthButtons = makeButton(fourthBtns)
-        
-        //HStack 4개 생성
-        let firstHStack = makeHorizontalStackView(firstButtons)
-        let secondHStack = makeHorizontalStackView(secondButtons)
-        let thirdHStack = makeHorizontalStackView(thirdButtons)
-        let fourthHStack = makeHorizontalStackView(fourthButtons)
-        
-        //VStack 생성
-        let verticalStack = makeVerticalStackView([firstHStack, secondHStack, thirdHStack, fourthHStack])
-        
-        [label, verticalStack]
-            .forEach { view.addSubview($0) }
-        
-        label.snp.makeConstraints {
-            $0.directionalHorizontalEdges.equalToSuperview().inset(30)
-            $0.top.equalToSuperview().inset(200)
-            $0.height.equalTo(100)
+}
+
+//버튼 클래스
+class CircleButton: UIButton {
+    init(model: ButtonModel) {
+        super.init(frame: .zero)
+        //다른 속성
+        setTitle(model.title, for: .normal)
+        backgroundColor = model.color
+        //같은 속성
+        setTitleColor(.white, for: .normal)
+        titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
+        layer.cornerRadius = 40
+        //액션
+        if let action = model.action {
+            addTarget(self, action: action, for: .touchUpInside)
         }
-        
-        firstHStack.snp.makeConstraints {
-            $0.height.equalTo(80)
-        }
-        
-        secondHStack.snp.makeConstraints {
-            $0.height.equalTo(80)
-        }
-        
-        thirdHStack.snp.makeConstraints {
-            $0.height.equalTo(80)
-        }
-        
-        fourthHStack.snp.makeConstraints {
-            $0.height.equalTo(80)
-        }
-        
-        verticalStack.snp.makeConstraints {
-            $0.width.equalTo(350)
-            $0.top.equalTo(label.snp.bottom).offset(60)
-            $0.centerX.equalToSuperview()
-        }
-        
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+//버튼 모델
+struct ButtonModel {
+    let title: String
+    let color: UIColor
+    let action: Selector?
+}
+
+//버튼 색상
+enum Color {
+    static let grayColor = UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1)
+    static let orangeColor = UIColor.orange
 }
 
 
