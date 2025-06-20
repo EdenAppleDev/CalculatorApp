@@ -11,7 +11,7 @@ import UIKit
 struct ButtonModel {
     let title: String
     let color: UIColor
-    let action: Selector?
+    let action: Selector
 }
 
 //버튼 색상
@@ -22,28 +22,28 @@ enum Color {
 
 //버튼 배열
 let row1: [ButtonModel] = [
-    ButtonModel(title: "7", color: Color.grayColor, action: nil),
-    ButtonModel(title: "8", color: Color.grayColor, action: nil),
-    ButtonModel(title: "9", color: Color.grayColor, action: nil),
-    ButtonModel(title: "+", color: Color.orangeColor, action: nil)
+    ButtonModel(title: "7", color: Color.grayColor, action: #selector(ViewController.buttonTapped)),
+    ButtonModel(title: "8", color: Color.grayColor, action: #selector(ViewController.buttonTapped)),
+    ButtonModel(title: "9", color: Color.grayColor, action: #selector(ViewController.buttonTapped)),
+    ButtonModel(title: "+", color: Color.orangeColor, action: #selector(ViewController.buttonTapped))
 ]
 let row2: [ButtonModel] = [
-    ButtonModel(title: "4", color: Color.grayColor, action: nil),
-    ButtonModel(title: "5", color: Color.grayColor, action: nil),
-    ButtonModel(title: "6", color: Color.grayColor, action: nil),
-    ButtonModel(title: "-", color: Color.orangeColor, action: nil)
+    ButtonModel(title: "4", color: Color.grayColor, action: #selector(ViewController.buttonTapped)),
+    ButtonModel(title: "5", color: Color.grayColor, action: #selector(ViewController.buttonTapped)),
+    ButtonModel(title: "6", color: Color.grayColor, action: #selector(ViewController.buttonTapped)),
+    ButtonModel(title: "-", color: Color.orangeColor, action: #selector(ViewController.buttonTapped))
 ]
 let row3: [ButtonModel] = [
-    ButtonModel(title: "1", color: Color.grayColor, action: nil),
-    ButtonModel(title: "2", color: Color.grayColor, action: nil),
-    ButtonModel(title: "3", color: Color.grayColor, action: nil),
-    ButtonModel(title: "*", color: Color.orangeColor, action: nil)
+    ButtonModel(title: "1", color: Color.grayColor, action: #selector(ViewController.buttonTapped)),
+    ButtonModel(title: "2", color: Color.grayColor, action: #selector(ViewController.buttonTapped)),
+    ButtonModel(title: "3", color: Color.grayColor, action: #selector(ViewController.buttonTapped)),
+    ButtonModel(title: "*", color: Color.orangeColor, action: #selector(ViewController.buttonTapped))
 ]
 let row4: [ButtonModel] = [
-    ButtonModel(title: "AC", color: Color.orangeColor, action: nil),
-    ButtonModel(title: "0", color: Color.grayColor, action: nil),
-    ButtonModel(title: "=", color: Color.orangeColor, action: nil),
-    ButtonModel(title: "/", color: Color.orangeColor, action: nil)
+    ButtonModel(title: "AC", color: Color.orangeColor, action: #selector(ViewController.resetButtonTapped)),
+    ButtonModel(title: "0", color: Color.grayColor, action: #selector(ViewController.buttonTapped)),
+    ButtonModel(title: "=", color: Color.orangeColor, action: #selector(ViewController.equalButtonTapped)),
+    ButtonModel(title: "/", color: Color.orangeColor, action: #selector(ViewController.buttonTapped))
 ]
 
 //버튼 배열
