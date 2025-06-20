@@ -134,7 +134,10 @@ private extension ViewController {
     }
     // 버튼 생성
     func createButton(from model: ButtonModel) -> UIButton {
-        return CircleButton(model: model)
+        let button = CircleButton(model: model)
+        // 액션
+        button.addTarget(self, action: model.action, for: .touchUpInside)
+        return button
     }
     // 배열에서 받은 데이터로 버튼생성
     func createButtons(from models: [ButtonModel]) -> [UIButton] {
@@ -198,8 +201,6 @@ class CircleButton: UIButton {
         setTitleColor(.white, for: .normal)
         titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
         layer.cornerRadius = 40
-        // 액션
-        addTarget(nil, action: model.action, for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
