@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     private var buttons: [[UIButton]] = []
     private var horizontalStackViews: [UIStackView] = []
     private var verticalStack = UIStackView()
+    
     private let operators: Set<String> = ["+", "-", "*", "/"]
     
     override func viewDidLoad() {
