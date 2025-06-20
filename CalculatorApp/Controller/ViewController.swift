@@ -14,13 +14,12 @@ class ViewController: UIViewController {
     private var buttons: [[UIButton]] = []
     private var horizontalStackViews: [UIStackView] = []
     private var verticalStack = UIStackView()
+    private let operators: Set<String> = ["+", "-", "*", "/"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
-    
-    let operators: Set<String> = ["+", "-", "*", "/"]
     
     // 라벨에 텍스트 추가하기
     @objc
@@ -69,10 +68,8 @@ class ViewController: UIViewController {
             return
         }
         
-        let currentText = label.text ?? "0"
-        
         //마지막 글자가 연산자면 계산 무시
-        if let last = currentText.last {
+        if let last = expressionText.last {
             if operators.contains(String(last)) {
                 return
             }
