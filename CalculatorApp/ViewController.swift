@@ -23,8 +23,7 @@ class ViewController: UIViewController {
     }
     
     // 라벨에 텍스트 추가하기
-    @objc
-    func buttonTapped(_ sender: UIButton) {
+    @objc func buttonTapped(_ sender: UIButton) {
         guard let input = sender.currentTitle else { return }
         
         let currentText = label.text ?? "0"
@@ -57,14 +56,10 @@ class ViewController: UIViewController {
     }
     
     // 라벨 초기화
-    @objc
-    func resetButtonTapped(_ sender: UIButton) {
-        label.text = "0"
-    }
+    @objc func resetButtonTapped(_ sender: UIButton) { label.text = "0" }
     
     // 계산 하기
-    @objc
-    func equalButtonTapped(_ sender: UIButton) {
+    @objc func equalButtonTapped(_ sender: UIButton) {
         guard let expressionText = label.text, !expressionText.isEmpty else {
             return
         }
